@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>A simple, clean, and responsive HTML invoice template</title>
+	<script>
+		
+        var customerDetails={
+           "name":"Amit Vishwakarma",
+           "address":"Bramha Vishnu Mahesh Kurar Village malad east mumbai 400097",
+           "mob":"8286683323",
+           "gstNO":"443664364663",
+           "pan":"AFFD453455"
+        }
+        var productDetails= [
+           {
+              "sn":"1",
+              "productName":"Gold Ornament",
+              "gw":"1.5",
+              "nw":"1.5",
+              "rpu":"2.5",
+              "amount":"3000"
+           },
+           {
+              "sn":"2",
+              "productName":"Ear Ring",
+              "gw":"1.5",
+              "nw":"1.5",
+              "rpu":"2.5",
+              "amount":"3000"
+           }
+        ]
+        var other ={
+           "total":"6000.00",
+           "cgst":"90.00",
+           "sgst":"90.00",
+           "discount":"80.00",
+           "netAm":"6100.00",
+           "inWords":"Rupees Six thousand only",
+           "mode":"Cash"
+           }
+        
+        var invoiceNo = "12343"
+        var date = "22/01/2022"
+		
+		var mainTable1 = document.getElementById("mainTable");
+
+for (var i = 0; i < productDetails.length; i++){
+	var row = mainTable1.insertRow(3+i);
+	row.insertCell(0).innerHTML = productDetails[i].productName 
+	row.insertCell(1).innerHTML = productDetails[i].gw 
+	row.insertCell(2).innerHTML = productDetails[i].nw 
+	row.insertCell(3).innerHTML = productDetails[i].rpu 
+	row.insertCell(4).innerHTML = productDetails[i].amount 
+
+}
+	
+	</script>
+	<style>
+		
+		.invoice-box {
+			
+			font-size: 12px;
+			margin-left: 5px;
+			color: #555;
+			
+		}
+		
+		table,td,th{
+			border: 0.5px solid rgb(5, 25, 82);
+			border-collapse: collapse;
+			text-align: center;
+			margin-left: 30px;
+			margin-right: 20px;
+			z-index: 10000;
+			
+		}
+		.logo {
+			background-color: yellow;
+			fill: red;
+			
+		}
+		.item {
+			border: none;
+			
+    		/* border-bottom: 1px solid #000; */
+			border-collapse: collapse;
+			height: 40px;
+			z-index: 10000;
+		}
+		.noBorder {
+    	border:none ;
+		border-left:  1px solid #000;
+		border-right:  1px solid #000;
+
+		}
+		.blankItem {
+			border: none;
+			
+    		/* border-bottom: 1px solid #000; */
+			border-collapse: collapse;
+			height: 150px;
+			z-index: 10000;
+		}
+		
+		
+	</style>
+</head>
+
+<body>
+	<div class="invoice-box">
+		
+		<p style="text-align: center;font-size: 14px;margin: 0px;height: 20px;">|| श्री देवनारायण नमः ||</p>
+		<div style="margin-left: -100px;height: 110px;">
+			<p class="logo" style="font-size: 50px;text-align:center;color: rgb(255, 145, 0);font-family: Imprint MT Shadow;margin-top: -30px;font-weight: 700;"><span style="font-size: 108px;color: rgb(55, 0, 255);font-family: Brush Script MT;margin-left: 40px;margin-right: 20px;margin-top: -30px;">mj</span>Mahalaxmi Jewellers</p>
+		</div>
+		<div style="position: fixed; background-color: red; z-index: -1;margin-top: 0px;margin-left:180px;height: 50px;">
+			<span style="font-size: 508px;color: rgb(55, 0, 255,0.05);background-color:rgb(255, 145, 0);font-family: Brush Script MT; z-index: -1;">mj</span>
+		</div>
+		<p style="font-size: 12px;text-align:center">Shop No. 2, Ramlakhan Singh Chawl, Adarsh Nagar ,Kurar Village, Malad (East), Mumbai-400097 | Mobile No : 9969736972, 8424905798</p>
+		<p style="font-size: 14px;text-align:center;font-weight: bold; ">GST INVOICE</p>
+		<table id="mainTable">
+			<tr style="font-size: 12px;text-align:left;height: 50px;">
+				<td colspan="2" style="text-align:left;">
+					<b style="margin-left: 10px;"> GSTIN : 27AAKP8905D1ZK</b><br />
+					<b style="margin-left: 10px;"> PAN : AAKPN8905D</b>		
+				</td>
+				<td colspan="4">
+					<b>Bill No : {{invoiceNo}}</b>	<br />
+					<b> Date : {{date}}</b>	
+				</td>
+			</tr>
+
+			<tr class="information">
+				<td colspan="6" style="text-align:left;height:100px;font-size: 14px;" >
+					<div style="margin-left: 10px;">
+					<b>Customer:</b> {{customerDetails.name}} <br />
+					<b>Add :</b> {{customerDetails.address}} <br />
+					<b>Mobile No :</b> {{customerDetails.mob}} <br />
+					<b>GSTIN :</b> {{customerDetails.gstNO}} <br />
+					<b>PAN :</b> {{customerDetails.pan}} <br />
+					</div>
+					
+				</td>	
+			</tr>
+			
+			<tr id ="pdTable" class="heading" style="height:60px;">
+				<th width="5%">Sr. No.</th>
+				<th width="40%">Product Name</th>
+				<th width="10%">Gross Weight</th>
+				<th width="10%">Net Weight</th>
+				<th width="10%">Rate Per Unit</th>
+				<th width="15%">Amount</th>
+			</tr>
+
+			
+			
+					<!-- <tr class="item" style="border: none;" >
+						<td class="noBorder">1</td>
+						<td class="noBorder">New Gold Ornament</td>
+						<td class="noBorder">1.5</td>
+						<td class="noBorder">1.5</td>
+						<td class="noBorder">2300</td>
+						<td class="noBorder">3000.00</td>
+					</tr>
+					<tr class="item" style="border: none;">
+						<td class="noBorder">2</td>
+						<td class="noBorder">New Gold Ornament</td>
+						<td class="noBorder">1.5</td>
+						<td class="noBorder">1.5</td>
+						<td class="noBorder">2300</td>
+						<td class="noBorder"> 3000.00</td>
+					</tr> -->
+					
+					<tr class="blankItem">
+						<td class="noBorder"></td>
+						<td class="noBorder"></td>
+						<td class="noBorder"></td>
+						<td class="noBorder"></td>
+						<td class="noBorder"></td>
+						<td class="noBorder"></td>
+					</tr>
+			<tr><td colspan="3" style="border:none;border-top: 1px solid #000;"></td>
+						<td  colspan="2" style="height: 10px;"><b>Total</b></td>
+						<td >{{other.total}}</td></tr>
+			<tr><td colspan="3" style="border:none;"><div style="margin-left: 10px;"><b> Mode of Payament : {{other.mode}} </b></div></td>
+				<td  colspan="2" style="height: 10px;"><b>CGST @ 1.5%</b></td>
+				<td >{{other.cgst}}</td></tr>
+			<tr><td colspan="3" style="border:none;" ></td>
+				<td  colspan="2" style="height: 10px;"><b>SGST @ 1.5%</b></td>
+				<td >{{other.sgst}}</td></tr>
+				<tr><td colspan="3" style="border:none;" ></td>
+					<td  colspan="2" style="height: 10px;"><b>Discount</b></td>
+					<td class="noBorder">{{other.discount}}</td></tr>
+			
+			<tr class="total">
+					<td colspan="5" style="height:50px;text-align: left;"><div style="margin-left: 10px;"><b> Total invoice value (in Figure)</b></div></td>
+					<td ><b style="font-size: 14px;">{{other.netAm}}</b></td>
+			</tr>
+			
+			
+			<tr class="total">
+				<td colspan="6" style="height:50px; padding-top: 10px;text-align: left;"><div style="margin-left: 10px;"><b> Total Amount Payable (In Words) :</b> <b style="font-size: 14px;margin-left: 10px;">{{other.inWords}}</b></div></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="height:100px; padding-top: 80px; border: none;font-weight: bold;"> Customer Signature</td>
+				<td colspan="4" style="height:100px;padding-top: 80px;border: none;font-weight: bold;"> for Mahalaxmi Jewellers </td>
+			</tr>
+			</table>
+			<div id="footer" style="height:100px;padding-top: 20px;">
+				<p style="font-size: 12px; width:30%;float: left;margin-bottom: 0px;margin-left:25px;">*No E-Way bill is required to be generate under this invoice are exempted as per Serial No.4/5 to the Annexure to Rule 138(14) of the CGST Rules</p>
+				<p style="font-size: 8px; width:30%;float: right;margin-bottom: 0px;">*I/We hereby certify that my/our Registration Certificate under The Maharastra Value Added Tax Act 2002 is force on The date on which the sale of the goods Sepcified in this tax invoice has been is made by me/us and that the transaction of sale covered by this tax invoice has been effected by me/us and it shall be accounted for in the turnover of the sales while filling my/our return and the due tax. if any payable on the sales hasbeen paid or shall paid*</p>
+			</div>
+	</div>
+</body>
+</html>

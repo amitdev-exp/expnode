@@ -1,42 +1,25 @@
-const express = require('express')
-const app  = express();
+
+import  express from 'express'
+const app = express();
 const port = 5000;
-const fs = require("fs");
-const cors = require('cors');
-const req = require('http')
+import cors from 'cors'
+import mjRouter from "./routes/mjService.js"
+import mongoose from 'mongoose'
 
 app.use(cors())
+app.use(express.static('public'))
+app.use(express.json())
 
-const loadData = function () {
-    try{
-        let databuffer = fs.readFileSync('./resources/sample.json')
-        let data = databuffer.toString();
-        return JSON.parse(data)
-
-    }catch(e){
-        console.log(e);
-    }
-}
-
-const saveData = function (data) {
-    const dataJSON = JSON.stringify(data);
-    fs.writeFileSync('./resources/sample.json',dataJSON)
-} 
-
-app.get('/api/readData/', (req,res) => {
-    const data = loadData();
-    res.send(data);
-});
-
-app.post('/api/writeData/', (req,res) => {
-    
-    console.log("data", req.query )
-    let data = loadData()
-    data.push(JSON.parse(req.query.value))
-    saveData(data)
-    res.send("Data saved successfully");
-});
+app.use('/api',mjRouter)
 
 
+const url = 'mongodb://localhost/mjdatabase'
+
+mongoose.connect(url, {useNewUrlParser:true})
+const con = mongoose.connection
+
+con.on('open', () => {
+    console.log('connected...')
+})
 
 app.listen(port, () => console.log(`server is running on ${port}`));
