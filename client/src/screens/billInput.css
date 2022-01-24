@@ -1,0 +1,20 @@
+.billView {
+    background-color: #f1cf78;
+    height: 900px;
+
+}
+#billTemplate{
+        
+        padding: 50px;
+        background-color: #e0e0e1;
+        box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+.label{
+    font-style: oblique;
+    padding: 10px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+#text {
+    width: 20px;
+}
