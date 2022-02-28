@@ -11,14 +11,14 @@ function Navbar() {
                     <reactBoot.Navbar.Collapse id="responsive-navbar-nav">
                         <reactBoot.Nav className="me-auto">
                             <reactBoot.Nav.Link href="/billView">New Bill</reactBoot.Nav.Link>
-                            <reactBoot.Nav.Link href="#pricing">New Solution</reactBoot.Nav.Link>
-                            <reactBoot.NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+                            <reactBoot.Nav.Link href="/billHistory">Bill history</reactBoot.Nav.Link>
+                            {/* <reactBoot.NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                                 <reactBoot.NavDropdown.Item href="#action/3.1">Action</reactBoot.NavDropdown.Item>
                                 <reactBoot.NavDropdown.Item href="#action/3.2">Another action</reactBoot.NavDropdown.Item>
                                 <reactBoot.NavDropdown.Item href="#action/3.3">Something</reactBoot.NavDropdown.Item>
                                 <reactBoot.NavDropdown.Divider />
                                 <reactBoot.NavDropdown.Item href="#action/3.4">Separated link</reactBoot.NavDropdown.Item>
-                            </reactBoot.NavDropdown>
+                            </reactBoot.NavDropdown> */}
                         </reactBoot.Nav>
                         <reactBoot.Nav>
                             <reactBoot.Nav.Link href="#deets">Mission</reactBoot.Nav.Link>
@@ -31,10 +31,8 @@ function Navbar() {
                 <Router>
                     <Routes>
                         <Route path='/billView' element={<BillView/>}/>
+                        <Route path='/billHistory' element={<BillView/>}/>
                     </Routes>    
-
-                    {/* <Route exact path='/' component={Home} /> */}
-                    
                 </Router>
                     
                 

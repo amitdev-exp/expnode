@@ -4,6 +4,8 @@ import Submit from '../screens/submit'
 import axios from 'axios'
 import solarImg from '../../src/sonar_map.png'
 import BillView from '../components/billTemplate.js'
+import { Container, Col, Row } from 'react-bootstrap'
+import mj from '../resource/mj.jpg'
 class Home extends Component {
     constructor() {
         super();
@@ -85,21 +87,11 @@ class Home extends Component {
 
         return (
             <div className="home" style= {{  textAlign : 'center', padding : '10px'}}>
-                <h2>Welcome Mahalaxmi Jewellary </h2>
-                <div  style= {{ float : 'right',marginRight:'50px'}}>
-                    <Button variant="primary" onClick={this.handleShow}>
-                        Add New Coordinates
-                    </Button>
-                </div>
+                <h2>Welcome Mahalaxmi Jewellers </h2>
+                <Row style={{ padding: '5px', margin: '10px' }}>
+                        <Col md={4}><img src={mj} style={{ width: "1200px", maxWidth: "1200px", height: '300px',paddingTop: '40px',marginLeft: "40px" }} /></Col>
 
-                <div  style= {{ float : 'right',marginRight:'-180px', marginTop: '50px' }}>
-                    <Button variant="primary" onClick={this.handleInvoice}>
-                        Download Invoice
-                    </Button>
-                </div>
-                
-                
-                <BillView />
+                </Row>
                 {inpurModel}
                 {alertPop}
                 

@@ -124,8 +124,8 @@ class EditableTable extends React.Component {
         {
           key: 0,
           name: 'Gold ornament',
-          gw: '0.0',
-          nw: '0.0',
+          gw: '0',
+          nw: '0',
           rpu: '0',
         },
       ],
