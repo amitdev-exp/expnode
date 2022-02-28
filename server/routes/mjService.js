@@ -24,44 +24,30 @@ async function getTemplateHtml(){
 
 async function generatedPdf( record) {
     let data = record
-    // let data = {
-    //     "customerDetails":{
-    //        "name":"Amit Vishwakarma",
-    //        "address":"Bramha Vishnu Mahesh Kurar Village malad east mumbai 400097",
-    //        "mob":"8286683323",
-    //        "gstNO":"443664364663",
-    //        "pan":"AFFD453455"
-    //     },
-    //     "productDetails":{
-           
-    //           "sn1":"1",
-    //           "productName1":"Gold Ornament",
-    //           "gw1":"1.5",
-    //           "nw1":"1.5",
-    //           "rpu1":"2.5",
-    //           "amount1":"3000",
-    //     //    },
-    //     //    {
-    //           "sn2":"2",
-    //           "productName2":"Ear Ring",
-    //           "gw2":"1.5",
-    //           "nw2":"1.5",
-    //           "rpu2":"2.5",
-    //           "amount2":"3000"
-    //     //    }
-    //     },
-    //     "other":{
-    //        "total":"6000.00",
-    //        "cgst":"90.00",
-    //        "sgst":"90.00",
-    //        "discount":"80.00",
-    //        "netAm":"6100.00",
-    //        "inWords":"Rupees Six thousand only",
-    //        "mode":"Cash"
-    //     },
-    //     "invoiceNo":"12343",
-    //     "date":"22/01/2022"
-    //  };
+
+    data.invoiceNo = getlatestBillNo(data.pType) + 1
+
+    let date = new Date();
+    const folderName = `/Amit/${date.getFullYear()}`
+
+    let fileName = data.customerDetails.name + date.getDay() +date.getDate()+(date.getMonth()+1)+date.getFullYear()+date.getTime()
+
+    let month = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
+
+    let currentFolder = folderName +"/"+month[date.getMonth()]+"/"
+
+    try {
+        if (!fs.existsSync(currentFolder)) {
+          fs.mkdirSync(currentFolder)
+        }
+      } catch (err) {
+        console.error(err)
+    }
+
+    if(date.getDate() !== 1){
+
+    }
+    
 
     getTemplateHtml().then(async (res) => {
 
@@ -79,9 +65,12 @@ async function generatedPdf( record) {
         const page = await browser.newPage()
 
         await page.setContent(html)
-        await page.pdf({path : 'invoice1.pdf', format : 'A4'})
+        const fullPath = currentFolder + fileName + '.pdf'
+        await page.pdf({path : fullPath, format : 'A4'})
         await browser.close();
         console.log("PDF GENERATED")
+        // saveRecordOnDatabase(data);
+        saveRecordOnJSONFile(data)
 
     }).catch ( err => {
         console.log("ERROR in get html", err)
@@ -91,6 +80,62 @@ async function generatedPdf( record) {
 const saveData = function (data) {
     const dataJSON = JSON.stringify(data);
     fs.writeFileSync('./resources/sample.json', dataJSON)
+}
+
+const saveRecordOnJSONFile = function (newdata) {
+    
+    let data = loadData()
+    data.push(JSON.parse(JSON.stringify(newdata).replace('",]','"]').replace('",}','"}')))
+    saveData(data)
+    console.log("Data saved successfully")  
+}
+
+const getlatestBillNo = function (type) {
+    
+    
+    let list = []
+    let data = loadData()
+    data.map(key => {
+        if(key.pType === type)
+            list.push(key.invoiceNo)
+    })
+    
+    return Math.max(...list) 
+}
+
+
+async function saveRecordOnDatabase(data) {
+    console.log(JSON.stringify(data))
+    // const dataJSON = JSON.stringify(data);
+    const alien = new mjModel({
+        customerDetails:{
+            name: data.customerDetails.name,
+            address: data.customerDetails.address,
+            mob: data.customerDetails.mob,
+            gstNO: data.customerDetails.gstNO,
+            pan: data.customerDetails.pan
+         },
+         productDetails: data.productDetails,
+         other:{
+            total: data.other.total,
+            cgst: data.other.cgst,
+            sgst: data.other.sgst,
+            discount: data.other.discount,
+            netAm: data.other.netAm,
+            inWords: data.other.inWords,
+            mode: data.other.mode
+         },
+         invoiceNo: data.invoiceNo,
+         date: data.date
+    })
+
+    try{
+        const a1 =  await alien.save() 
+        
+    }catch(err){
+        console.log("ERROR in DB INSERTION", err)
+    }
+    console.log("Record Saved")
 }
 
 const loadData = function () {
@@ -107,7 +152,7 @@ const loadData = function () {
 router.post('/pdf/generatePDF/', async (req, res) => { 
     let temp = req.body
     await generatedPdf(temp)
-    console.log("Done")
+    res.send("true")
 })
 
 router.get('/readMj/', async(req,res) => {
@@ -162,7 +207,7 @@ router.patch('/readMj/:id',async(req,res)=> {
 
 })
 
-router.get('/api/readData/', (req, res) => {
+router.get('/getInvoiceDetails/', (req, res) => {
     const data = loadData();
     res.send(data);
 });

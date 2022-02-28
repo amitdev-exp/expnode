@@ -23,9 +23,15 @@
     "mongoose": "^6.1.7",
     "pdf-creator-node": "^2.2.4",
     "puppeteer": "^13.0.1",
-    "react-router-dom": "^6.2.1"
+    "react-router-dom": "^6.2.1",
+    "sweetalert": "^2.1.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "*.json"
+    ]
   }
 }
