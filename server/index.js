@@ -13,13 +13,13 @@ app.use(express.json())
 app.use('/api',mjRouter)
 
 
-const url = 'mongodb://localhost/mjdatabase'
+// const url = 'mongodb://localhost/mjdatabase'
 
-mongoose.connect(url, {useNewUrlParser:true})
-const con = mongoose.connection
+// mongoose.connect(url, {useNewUrlParser:true})
+// const con = mongoose.connection
 
-con.on('open', () => {
-    console.log('connected...')
-})
+// con.on('open', () => {
+//     console.log('connected...')
+// })
 
 app.listen(port, () => console.log(`server is running on ${port}`));
