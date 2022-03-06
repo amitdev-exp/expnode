@@ -28,13 +28,15 @@ async function generatedPdf( record) {
     data.invoiceNo = getlatestBillNo(data.pType) + 1
 
     let date = new Date();
-    const folderName = `/Amit/${date.getFullYear()}`
+    const folderName = `/Users/rajudaroga//Documents/${date.getFullYear()}`
 
     let fileName = data.customerDetails.name + date.getDay() +date.getDate()+(date.getMonth()+1)+date.getFullYear()+date.getTime()
 
     let month = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
 
-    let currentFolder = folderName +"/"+month[date.getMonth()]+"/"
+    let type = data.pType
+
+    let currentFolder = folderName +"/"+month[date.getMonth()]+"/"+type.toUpperCase()+"/"
 
     try {
         if (!fs.existsSync(currentFolder)) {

@@ -39,6 +39,7 @@ class BillInput extends Component {
             oldGW : 0,
             oldNW : 0,
             oldRPU : 0,
+            oldAmount : 0,
             alert : false
             
         }
@@ -50,6 +51,7 @@ class BillInput extends Component {
         this.handleNumberToWords = this.handleNumberToWords.bind(this);
         this.handleNetAmount= this.handleNetAmount.bind(this);
         this.routeChange = this.routeChange.bind(this);
+        this.handleOldGWChange = this.handleOldGWChange.bind(this);
         
     }
 
@@ -80,7 +82,7 @@ class BillInput extends Component {
             "pType": this.state.pType
          };
         
-
+         
         
          let temp  = {}
          let netTotal = 0
@@ -113,7 +115,7 @@ class BillInput extends Component {
             temp['oldGW'] = this.state.oldGW,
             temp[`oldNW`] = this.state.oldNW,
             temp[`oldRPU`] = this.state.oldRPU,
-            temp[`oldAmount`] = (this.state.oldNW *  this.state.oldRPU)
+            temp[`oldAmount`] = (this.state.oldAmount)
         }else{
             temp['sn2'] = ''
             temp[`oldProductName`] = '',
@@ -124,7 +126,7 @@ class BillInput extends Component {
         }
 
 
-        netTotal = netTotal - temp.oldAmount
+        
         let cgstTax = ( netTotal * 1.5 ) / 100
         grandTotal = netTotal + cgstTax * 2 - this.state.discount
         grandTotal = grandTotal.toFixed(2)
@@ -142,7 +144,7 @@ class BillInput extends Component {
     }
 
     handleInvoice = (data) => {
-        axios.post(`http://localhost:5000/api/pdf/generatePDF`,data)
+        axios.post(`/api/pdf/generatePDF`,data)
             .then(response => {
                 this.setState({ alert: true })
                 console.log(response)
@@ -152,7 +154,6 @@ class BillInput extends Component {
 
     handleChange = (event) => {
         let value = event.target.value;
-        let headerName = event.target.name;
         this.setState({ [event.target.name] : value })
     }
 
@@ -161,8 +162,16 @@ class BillInput extends Component {
     }
 
     handleDateChange = (event) => {
-        let value = event._d.toDateString().substring(4,15)
+        let value = event._d.toLocaleDateString()
         this.setState({ 'bdate' : value })
+    }
+
+    handleOldGWChange = (event ) => {
+        let value = event.target.value;
+        let prd = [...this.state.prod]
+        prd[0].nw = prd[0].gw - value
+        
+        this.setState({ [event.target.name] : value, prod : prd })
     }
 
 
@@ -193,7 +202,7 @@ class BillInput extends Component {
             }
         }
 
-        cost = cost - (this.state.oldNW * this.state.oldRPU)
+        // cost = cost - (this.state.oldAmount)
 
         tax = cost * 1.5 / 100
         totalcost = cost + tax* 2 - discount
@@ -239,7 +248,7 @@ class BillInput extends Component {
                             <Col xs={6} md={4}><span style={{ marginRight: 8 }}>Mobile No </span><Input style={{ width: '50%' }} placeholder="Enter Mob no" maxLength={25} name="mob" value={this.state.mob} onChange={this.handleChange}/> </Col>
                         </Row>
                         <Row style={{ padding: '5px', margin: '10px' }}>
-                            <Col xs={12} md={8}><span style={{ marginRight: '65px' }}>Address </span><Input style={{ width: '50%' }} placeholder="Enter Address" maxLength={25} name="add" value={this.state.add} onChange={this.handleChange}/></Col>
+                            <Col xs={12} md={8}><span style={{ marginRight: '65px' }}>Address </span><Input style={{ width: '50%' }} placeholder="Enter Address" maxLength={50} name="add" value={this.state.add} onChange={this.handleChange}/></Col>
                             <Col xs={6} md={4}><span style={{ marginRight: '24px' }}>Bill Date </span><DatePicker style={{ width: '50%' }} name="bdate" onChange={this.handleDateChange}/></Col>
                         </Row>
                         <Row style={{ padding: '5px', margin: '10px' }}>
@@ -253,10 +262,10 @@ class BillInput extends Component {
                         <span style={{ marginLeft : '10px', fontWeight: 'bold' }}>Old Product Details:</span>
                         <Row style={{ padding: '5px', margin: '10px' }}>
 
-                            <Col xs={3} md={3}><span style={{ marginRight: 8 }}>Product name</span><Input style={{ width: '50%' }} placeholder="Name" maxLength={25} name="oldProdName" value={this.state.oldProdName} onChange={this.handleChange}/></Col>
-                            <Col xs={3} md={3}><span style={{ marginRight: 8 }}>Gross Weight</span><Input style={{ width: '30%' }} placeholder="Gross Weight" maxLength={25} name="oldGW" value={this.state.oldGW} onChange={this.handleChange}/> </Col>
-                            <Col xs={3} md={3}><span style={{ marginRight: 8 }}>Net Weight</span><Input style={{ width: '30%' }} placeholder="net Weight" maxLength={25} name="oldNW" value={this.state.oldNW} onChange={this.handleChange}/></Col>
-                            <Col xs={3} md={3}><span style={{ marginRight: 8 }}>Rate Per Unit</span><Input style={{ width: '30%' }} placeholder="Rate" maxLength={25} name="oldRPU" value={this.state.oldRPU} onChange={this.handleChange}/> </Col>
+                            <Col xs={6} md={6}><span style={{ marginRight: 8 }}>Product name</span><Input style={{ width: '50%' }} placeholder="Name" maxLength={25} name="oldProdName" value={this.state.oldProdName} onChange={this.handleChange}/></Col>
+                            <Col xs={3} md={3}><span style={{ marginRight: 8 }}>Gross Weight</span><Input style={{ width: '30%' }} placeholder="Gross Weight" maxLength={25} name="oldGW" value={this.state.oldGW} onChange={this.handleOldGWChange}/> </Col>
+                            
+                           
                         </Row>
                         </div>
                         

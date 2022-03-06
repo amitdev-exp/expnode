@@ -20,7 +20,7 @@ class billHistory extends Component {
     
 
     getInvoiceDetails = () => {
-        axios.get(`http://localhost:5000/api/getInvoiceDetails/`)
+        axios.get(`/api/getInvoiceDetails/`)
             .then(response => {
                 this.setState({ invoiceDetails: response.data })
                 console.log(response)
